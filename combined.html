@@ -13,15 +13,20 @@
     <header>
         <h1>Garrett Comer</h1>
         <h2>Huron High School</h2>
-        <nav><ol>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#2023">2023</a></li>
-            <li><a href="#2024">2024</a></li>
-            <li><a href="#2025">2025</a></li>
-        </ol></nav>
+        <!--code for dropdown button from W3 schools-->
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">Menu</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="index.html">Home</a>
+            <a href="#2023">2023 Races</a>
+            <a href="#2024">2024 Races</a>
+            <a href="#2025">2025 Races</a>
+          </div>
+        </div> 
     </header>
 
     <main>
+        <button onclick="toggleContrast()">High Contrast</button>
 
         <section id="2025">
 
@@ -561,13 +566,41 @@
       <p>Generated from athlete CSV.</p>
     </footer>
 
-    <!--got backbone of this code online at some forum site i just closed, adds clicking functionality-->
+    
     <script> 
+      /* got backbone of this code online at some forum site i just closed, adds clicking functionality */ 
+      /* does the action of triggering card when clicked*/
       document.querySelectorAll('.flip-card').forEach(card => {
         card.addEventListener('click', () => {
           card.classList.toggle('flipped');
         });
       });
+
+      /* dropdown JS from W3 schools */
+      /* When the user clicks on the button,
+      toggle between hiding and showing the dropdown content */
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      // Close the dropdown menu if the user clicks outside of it
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      } 
+
+      /*high contrast button functionality*/
+      function toggleContrast() {
+        document.body.classList.toggle("high-contrast");
+      }
     </script>
 
 </body>
