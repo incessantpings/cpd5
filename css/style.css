@@ -106,6 +106,11 @@ header {
   padding: 1rem;
 }
 
+.flip-card-front p{
+  line-height: 2.5;
+  padding: 0.25rem 0;
+}
+
 .flip-card-back {
   padding: 0 1rem;
 
@@ -143,7 +148,8 @@ header {
 
 /*------------------------------------------------------------------------------------------------------------------------*/
 * {
-  font-family:'Segoe UI', Tahoma, Verdana, sans-serif
+  font-family:'Segoe UI', Tahoma, Verdana, sans-serif;
+  line-height: 2.1;
 }
 
 a{
