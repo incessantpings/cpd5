@@ -1,3 +1,6 @@
+/*-------------------------------------------------------------------------------------------------------------------------------*/
+/*ACCESSIBILITY STUFF, except for high-contrast which is set at the bottom so it guaranteed overrides light/dark mode*/
+
 @media(prefers-color-scheme: dark){ /* found out how to set variables from https://www.geeksforgeeks.org/css/css-variables/*/
   :root{
       /*colours are automatically fairly dark*/
@@ -10,16 +13,19 @@
 
     /* This is Garrett's hs, Ann Arbor Skyline's color. Checked on WEBAIM  */
     /* ALl accompanying colors generated with https://venngage.com/tools/accessible-color-palette-generator*/
-    --card-front-bg: #1b4f6f;
-
+    --card-bg: #1b4f6f;
     --card-front-text: #ffffff;
-    --card-back-bg: #1b4f6f;
+    
 
     /* header */
     --header-bg: #8194A6;
     --dropdown-menu-color: #000000;
     --dropdown-text-color: #ffffff;
     --dropdown-btn-color: #133D5C;
+
+    /* button */
+    --button-bg: #ffffff;
+    --button-text: #000000;
   }
 }
 
@@ -33,45 +39,20 @@
     --card-border: #D7E1EC;
     
     /* ALl accompanying colors generated with https://venngage.com/tools/accessible-color-palette-generator*/
-    --card-front-bg: #CEB5AE;
-    
+    --card-bg: #CEB5AE;
     --card-front-text: #000000;
-    --card-back-bg: #CEB5AE;
+    
     
     /* header */
     --header-bg: #AF8E83;
     --dropdown-menu-color: #D7E1EC;
     --dropdown-text-color: #000000;
     --dropdown-btn-color: #ffffff;
-  }
-}
 
-/*high-contrast mode*/
-@media (prefers-contrast: more) {
-  :root {
-    --bg-color: #000000;
-    --text-color: #ffffff;
-    --card-border: #ffffff;
-    --card-front-bg: #000000;
-    --card-back-bg: #000000;
-    --header-bg: #000000;
-    --dropdown-menu-color: #ffffff;
-    --dropdown-text-color: #000000;
-    --dropdown-btn-color: #ffffff;
+    /* button */
+    --button-bg: #000000;
+    --button-text: #ffffff;
   }
-}
-
-/*manual toggle in case auto-high contrast doesn't work*/
-.high-contrast {
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --card-border: #ffffff;
-  --card-front-bg: #000000;
-  --card-back-bg: #000000;
-  --header-bg: #000000;
-  --dropdown-menu-color: #ffffff;
-  --dropdown-text-color: #000000;
-  --dropdown-btn-color: #ffffff;
 }
 
 /*eliminates any and all animations for reduced motion pref
@@ -95,6 +76,8 @@ body {
 
 header {
   background-color: var(--header-bg);
+  position:sticky;
+  top:0;
 }
 
 .flip-card {
@@ -108,6 +91,9 @@ header {
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+
+  background-color: var(--card-bg);
+  color: var(--card-front-text);
 }
 
 .flip-card-front,
@@ -116,18 +102,16 @@ header {
 }
 
 .flip-card-front {
-  background-color: var(--card-front-bg);
   color: var(--card-front-text);
   padding: 1rem;
 }
 
 .flip-card-back {
-  background-color: var(--card-back-bg); 
   padding: 0 1rem;
 
   /*Sets initial max height which gets transformed when clicked on*/
   max-height: 0;
-  overflow:hidden;
+  overflow: hidden;
 
   /*this is the animation which smooths the switch from not being visible*/
   transition: max-height 0.5s ease, padding 0.3s ease;
@@ -140,15 +124,21 @@ header {
 }
 
 .flip-card.flipped .flip-card-back {
-  /*arbitrary high val needed to change max-height so that card heights scale appropriately to flips*/
+  /*value higher than tallest img, needed to change max-height so that card heights scale appropriately to flips*/
+  /*admittedly awkward solution :/ but without it I can't animate the scaling*/
   max-height: 1000px;
   padding: 1rem;
 }
 
-#2025, #2024, #2023 {
+.year {
   display: grid;
   grid-template-columns: auto; /*note to self this is going to change with breakpts set for other views*/
   gap: 1.5rem;
+}
+
+/*arbitrary for the default single-column, but then I'd have to repeat this code every size-based media query so I'm sticking it here*/
+.year h2{
+  grid-column: 1 / -1;
 }
 
 /*------------------------------------------------------------------------------------------------------------------------*/
@@ -158,6 +148,11 @@ header {
 
 a{
   color:var(--text-color);
+}
+
+button{
+  background-color: var(--button-bg);
+  color: var(--button-text);
 }
 
 header {
@@ -227,5 +222,75 @@ header .dropdown {
   display: block;
 }
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+/* Show the dropdown menu (used JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;} 
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+/*size-based media query breakpoints and high-contrast modes*/
+/*had to put in bottom bc kept getting overridden by default*/
+
+@media all and (min-width:600px) {
+  .year {
+    grid-template-columns: auto auto;
+    gap: 1rem;
+  }
+}
+
+@media all and (min-width:900px) {
+  .year {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media all and (min-width:1200px) {
+  .year {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
+@media all and (min-width: 1500px) {
+  .year {
+    grid-template-columns: auto auto auto auto auto;
+  }
+}
+
+/*high-contrast mode*/
+@media (prefers-contrast: more) {
+  :root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+
+    --card-border: #ffffff;
+
+    --card-bg: #000000;
+    --card-front-text:#ffffff;
+
+    --header-bg: #000000;
+    --dropdown-menu-color: #ffffff;
+    --dropdown-text-color: #000000;
+    --dropdown-btn-color: #ffffff;
+
+    --button-bg: #ffffff;
+    --button-text: #000000;
+  }
+}
+
+/*manual toggle in case auto-high contrast doesn't work*/
+.high-contrast {
+  --bg-color: #000000;    
+  --text-color: #ffffff;
+
+  --card-border: #ffffff;
+  
+  --card-bg: #000000;
+  --card-front-text:#ffffff;
+  
+  --header-bg: #000000;
+  --dropdown-menu-color: #ffffff;
+  --dropdown-text-color: #000000;
+  --dropdown-btn-color: #ffffff;
+  
+  --button-bg: #ffffff;
+  --button-text: #000000;
+}
+
